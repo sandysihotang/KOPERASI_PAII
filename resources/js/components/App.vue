@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark" style="background-color: #212731;">
-            <a class="navbar-brand" href="#"><h2>KOPERASI IT DEL</h2></a>
+            <a class="navbar-brand" href="#" @click="goToDashboard"><h2>KOPERASI IT DEL</h2></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
                     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,6 +49,9 @@
             }
         },
         methods: {
+            goToDashboard(){
+                this.$router.push('/dashboard')
+            },
             setAuthUser() {
                 axios('api/user', {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
                     .then(e => {

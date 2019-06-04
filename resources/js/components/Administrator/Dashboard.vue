@@ -5,22 +5,46 @@
             <b-row class="align-content-center vertical-center">
                 <b-col>
                     <div class="wrap">
-                        <button class="button" @click="inventory"><h1><font-awesome-icon icon="dolly-flatbed"/></h1>
-                            <br>Inventory</button>
+                        <button class="button" @click="inventory">
+                            <h1>
+                                <font-awesome-icon icon="dolly-flatbed"/>
+                            </h1>
+                            <br>Inventory
+                        </button>
                     </div>
                 </b-col>
                 <b-col>
                     <div class="wrap">
-                        <button class="button" @click="pemasukanProduk"><h1><font-awesome-icon icon="hand-holding-usd"/></h1>
-                            <br>Pemasukan Barang</button>
+                        <button class="button" @click="pemasukanProduk">
+                            <h1>
+                                <font-awesome-icon icon="hand-holding-usd"/>
+                            </h1>
+                            <br>Pemasukan Barang
+                        </button>
                     </div>
                 </b-col>
                 <b-col>
                     <div class="wrap">
-                        <button class="button" @click="penjualanProduk"><h1><font-awesome-icon icon="shopping-cart"/></h1>
-                            <br>Penjualan Produk</button>
+                        <button class="button" @click="penjualanProduk">
+                            <h1>
+                                <font-awesome-icon icon="shopping-cart"/>
+                            </h1>
+                            <br>Penjualan Produk
+                        </button>
                     </div>
                 </b-col>
+            </b-row>
+            <b-row class="mt-3">
+                    <b-col class="float-center">
+                        <div class="wrap">
+                            <button class="button" @click="penitipanBarang">
+                                <h1>
+                                    <font-awesome-icon icon="piggy-bank"/>
+                                </h1>
+                                <br>Barang Titipan
+                            </button>
+                        </div>
+                    </b-col>
             </b-row>
         </b-container>
     </div>
@@ -42,11 +66,14 @@
             inventory() {
                 this.$router.push('/inventory')
             },
-            pemasukanProduk(){
+            pemasukanProduk() {
                 this.$router.push('/laporan/pemasukan')
             },
-            penjualanProduk(){
+            penjualanProduk() {
                 this.$router.push('/laporan/penjualan')
+            },
+            penitipanBarang() {
+                this.$router.push('/laporan/penitipan')
             }
         },
         created() {

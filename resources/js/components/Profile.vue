@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label><h4>Email</h4></label>
-                                    <input type="email" class="form-control" name="email" v-model="formData.email"
+                                    <input type="email" class="form-control" name="email" :value="formData.email"
                                            placeholder="Email"
                                            title="enter your email." disabled>
                                 </div>

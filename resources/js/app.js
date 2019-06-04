@@ -10,6 +10,7 @@ import Auth from "./components/Auth/Auth.js";
 import swal from 'vue-sweetalert2'
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {
+    faPiggyBank,
     faPrint,
     faDownload,
     faEdit,
@@ -50,7 +51,8 @@ library.add({
     faCheckCircle,
     faFileExcel,
     faFileDownload,
-    faDice
+    faDice,
+    faPiggyBank
 })
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('form_produk', require('./components/Administrator/form_produk.vue').default)
