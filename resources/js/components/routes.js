@@ -20,6 +20,7 @@ import UbahPassword from './UbahPassword.vue'
 import KelolaBarangTitipan from './Kasir/KelolaBarangTitipan.vue'
 import PenambahanBarangPenitip from './Kasir/PenambahanBarangPenitip.vue'
 import DetailPenitip from './Kasir/DetailTitipan.vue'
+import PrintBarcode from './Kasir/PrintBarcode.vue'
 
 Vue.use(VueRoute)
 
@@ -133,6 +134,13 @@ const router = new VueRoute({
         {
             path: '/kasir',
             component: Kasir,
+            meta: {
+                forAuth: true,
+            }
+        },
+        {
+            path: '/barcode/:id',
+            component: PrintBarcode,
             meta: {
                 forAuth: true,
             }

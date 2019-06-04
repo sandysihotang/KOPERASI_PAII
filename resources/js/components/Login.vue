@@ -5,7 +5,7 @@
 
             <!-- Icon -->
             <div id="formFooter" class="fadeIn first">
-                <h3>SIKOPER</h3>
+                <h3>KOPERASI IT DEL</h3>
             </div>
 
             <!-- Login Form -->

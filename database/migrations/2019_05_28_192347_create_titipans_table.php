@@ -18,6 +18,7 @@ class CreateTitipansTable extends Migration
             $table->string('nama_owner');
             $table->boolean('status')->default(0);
             $table->boolean('status_pengambilan')->default(0);
+            $table->integer('potongan_pengambilan')->default(0);
             $table->timestamps();
         });
     }

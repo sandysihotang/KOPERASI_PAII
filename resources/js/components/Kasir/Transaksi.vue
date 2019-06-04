@@ -144,6 +144,7 @@
                     }
                 ],
                 items: [],
+                state: null,
                 uang: 0,
                 form_transaksi_baru: {
                     no_transaksi: null,
@@ -195,6 +196,7 @@
                             this.form_produk_tambah.nama = e.data.nama
                             this.form_produk_tambah.jumlah_sekarang = e.data.jumlah_barang
                             this.form_produk_tambah.id = e.data.id
+                            this.state = e.data.from
                         } else {
                             this.$swal({
                                 position: 'center',
@@ -217,33 +219,76 @@
                     })
                     return
                 }
-                axios.post('api/tambahProdukTransaksi', {
-                    id_produk: this.form_produk_tambah.id,
-                    jumlah: this.form_produk_tambah.jumlah,
-                    kode: this.form_transaksi_baru.no_transaksi,
-                    user_id: this.form_transaksi_baru.user_id
-                }, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
-                    .then(e => {
-                        this.form_produk_tambah = {
-                            barcode: null,
-                            nama: null,
-                            jumlah: 1,
-                            id: null,
-                            jumlah_sekarang: 0
-                        }
-                        this.fetchProduk()
-                        this.totalHarga()
-                        const Toast = this.$swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                        Toast.fire({
-                            type: 'success',
-                            title: 'Produk Berhasil Ditambah'
+                if (this.state === 1) {
+                    axios.get('api/checkHargaJual/' + this.form_produk_tambah.id, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                        .then(e => {
+                            if (e.data.length != 0) {
+                                axios.post('api/tambahProdukTransaksi/' + this.state, {
+                                    id_produk: this.form_produk_tambah.id,
+                                    jumlah: this.form_produk_tambah.jumlah,
+                                    kode: this.form_transaksi_baru.no_transaksi,
+                                    user_id: this.form_transaksi_baru.user_id
+                                }, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                                    .then(e => {
+                                        this.form_produk_tambah = {
+                                            barcode: null,
+                                            nama: null,
+                                            jumlah: 1,
+                                            id: null,
+                                            jumlah_sekarang: 0
+                                        }
+                                        this.fetchProduk()
+                                        this.totalHarga()
+                                        const Toast = this.$swal.mixin({
+                                            toast: true,
+                                            position: 'top-end',
+                                            showConfirmButton: false,
+                                            timer: 3000
+                                        });
+                                        Toast.fire({
+                                            type: 'success',
+                                            title: 'Produk Berhasil Ditambah'
+                                        })
+                                    })
+                            } else {
+                                this.$swal({
+                                    position: 'center',
+                                    type: 'error',
+                                    title: 'Tentukan Harga Jual Produk',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
                         })
-                    })
+                }else{
+                    axios.post('api/tambahProdukTransaksi/' + this.state, {
+                        id_produk: this.form_produk_tambah.id,
+                        jumlah: this.form_produk_tambah.jumlah,
+                        kode: this.form_transaksi_baru.no_transaksi,
+                        user_id: this.form_transaksi_baru.user_id
+                    }, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                        .then(e => {
+                            this.form_produk_tambah = {
+                                barcode: null,
+                                nama: null,
+                                jumlah: 1,
+                                id: null,
+                                jumlah_sekarang: 0
+                            }
+                            this.fetchProduk()
+                            this.totalHarga()
+                            const Toast = this.$swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                            Toast.fire({
+                                type: 'success',
+                                title: 'Produk Berhasil Ditambah'
+                            })
+                        })
+                }
             },
             fetchProduk() {
 
@@ -260,7 +305,7 @@
                     })
             },
             deleteProduk(row) {
-                axios.delete('api/deleteProduk/' + row.id, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                axios.delete('api/deleteProduk/' + row.id+'/'+row.state, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
                     .then(e => {
                         const Toast = this.$swal.mixin({
                             toast: true,

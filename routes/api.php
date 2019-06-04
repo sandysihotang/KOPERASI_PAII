@@ -20,13 +20,13 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
-Route::post('profile','AuthController@updateProfile');
-Route::post('verify/{id}','AuthController@ubah');
-Route::post('forgotPassword','AuthController@forgotPassword');
-Route::post('checkUser','AuthController@check');
+Route::post('profile', 'AuthController@updateProfile');
+Route::post('verify/{id}', 'AuthController@ubah');
+Route::post('forgotPassword', 'AuthController@forgotPassword');
+Route::post('checkUser', 'AuthController@check');
 Route::post('/register', 'AuthController@userRegister');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('createKategori','ProdukController@createKategori');
+    Route::post('createKategori', 'ProdukController@createKategori');
     Route::get('allProduk', 'ProdukController@index');
     Route::get('getUserKonfirmation', 'AuthController@getUserKonfimation');
     Route::get('getCode/{code}', 'ProdukController@getCode');
@@ -38,15 +38,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('getTotal', 'ProdukController@getTotal');
     Route::get('hargaBarangItem/{id}', 'ProdukController@hargaBarangPerItem');
     Route::get('getHargaJual/{id}', 'ProdukController@getHargaJual');
-    Route::post('ubahHargaJual/{id}','ProdukController@ubahHargaJual');
-
+    Route::post('ubahHargaJual/{id}', 'ProdukController@ubahHargaJual');
 
 
     Route::get('getProduk/{id}', 'ProdukController@getSpesifikProduk');
     Route::put('editNewProduk/{id}', 'ProdukController@editNewProduk');
     Route::delete('deleteNewProduk/{id}', 'ProdukController@deleteProduk');
     Route::post('createExcel', 'ProdukController@download');
-
 
 
     Route::get('getLaporanPemasukan', 'LaporanPemasukanController@index');
@@ -58,28 +56,31 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
     Route::get('kodeTransaksi', 'TransaksiController@kode');
     Route::get('getBarang/{kode}', 'TransaksiController@spesifik');
-    Route::post('tambahProdukTransaksi', 'TransaksiController@keranjang');
+    Route::post('tambahProdukTransaksi/{state}', 'TransaksiController@keranjang');
     Route::get('produkTransaksi/{kode}', 'TransaksiController@getProduk');
-    Route::delete('deleteProduk/{id}', 'TransaksiController@deleteProduk');
+    Route::get('checkHargaJual/{id}', 'TransaksiController@checkHargaJual');
+    Route::get('getBarcode/{id}', 'TransaksiController@getBarcode');
+    Route::delete('deleteProduk/{id}/{state}', 'TransaksiController@deleteProduk');
     Route::post('selesaiTransaksi/{id}', 'TransaksiController@penyelesaian');
 
     Route::get('getLaporanPenjualan', "LaporanPenjualanController@index");
-    Route::post('downloadPenjualanExcel','LaporanPenjualanController@download');
+    Route::post('downloadPenjualanExcel', 'LaporanPenjualanController@download');
 
     Route::get('getDetailPenjualan/{id}', "LaporanPenjualanController@getDetail");
     Route::get('getDetailUser/{id}', "LaporanPenjualanController@getUser");
 
 
-
-    Route::post('createNewPenitip','TitipanController@createPenitip');
-    Route::post('tambahBarang/{id}','BarangTitipanController@tambahProduk');
-    Route::get('getBarangTitipan/{id}','BarangTitipanController@getProduk');
-    Route::get('getTotalTitipan/{id}','BarangTitipanController@getTotal');
-    Route::get('getTitipan/{id}','BarangTitipanController@getDetail');
-    Route::get('simpanData/{id}','TitipanController@simpanData');
-    Route::get('allPenitip','TitipanController@getAllPenitip');
-    Route::get('getDetailUserPenitip/{id}','TitipanController@getName');
-    Route::get('getDetailPenitipan/{id}','TitipanController@getAllProduk');
-    Route::put('editTitipan/{id}','BarangTitipanController@update');
-    Route::delete('deleteTitipan/{id}','BarangTitipanController@delete');
+    Route::post('createNewPenitip', 'TitipanController@createPenitip');
+    Route::post('tambahBarang/{id}', 'BarangTitipanController@tambahProduk');
+    Route::post('ambilTitipan/{id}', 'BarangTitipanController@ambilTitipan');
+    Route::get('getBarangTitipan/{id}', 'BarangTitipanController@getProduk');
+    Route::get('getTotalTitipan/{id}', 'BarangTitipanController@getTotal');
+    Route::get('getTitipan/{id}', 'BarangTitipanController@getDetail');
+    Route::get('ambilHargaTitipan/{id}', 'BarangTitipanController@ambilHargaTitipan');
+    Route::get('simpanData/{id}', 'TitipanController@simpanData');
+    Route::get('allPenitip', 'TitipanController@getAllPenitip');
+    Route::get('getDetailUserPenitip/{id}', 'TitipanController@getName');
+    Route::get('getDetailPenitipan/{id}', 'TitipanController@getAllProduk');
+    Route::put('editTitipan/{id}', 'BarangTitipanController@update');
+    Route::delete('deleteTitipan/{id}', 'BarangTitipanController@delete');
 });

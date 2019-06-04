@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\BarangTitipan;
+use App\Titipan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangTitipanController extends Controller
 {
@@ -29,6 +31,19 @@ class BarangTitipanController extends Controller
             ->where('status','=',0)
             ->get();
     }
+    public function ambilHargaTitipan($id){
+        return BarangTitipan::select(DB::raw('SUM(barang_titipans.harga_barang*transaksi_titipans.jumlah) as total'))
+            ->join('transaksi_titipans','transaksi_titipans.produk_titipan_id','=','barang_titipans.id')
+            ->where('titipan_id','=',$id)->first();
+    }
+
+    public function ambilTitipan(Request $request,$id){
+        $data=Titipan::find($id);
+        $data->status_pengambilan=1;
+        $data->potongan_pengambilan=$request->potongan;
+        $data->save();
+    }
+
     public function update(Request $request,$id){
         $data=BarangTitipan::find($id);
         $data->harga_barang=$request[0]['harga'];

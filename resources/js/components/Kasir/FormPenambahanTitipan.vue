@@ -68,13 +68,13 @@
             }
         },
         methods: {
-            resetData(){
-                this.formBaru.nama=null
-                this.formBaru.harga=null
-                this.formBaru.jumlah=null
+            resetData() {
+                this.formBaru.nama = null
+                this.formBaru.harga = null
+                this.formBaru.jumlah = null
             },
-            addProdukTitipan(){
-                if(this.formBaru.nama===null || this.formBaru.harga===null || this.formBaru.jumlah===null){
+            addProdukTitipan() {
+                if (this.formBaru.nama === null || this.formBaru.harga === null || this.formBaru.jumlah === null) {
                     this.$swal({
                         position: 'center',
                         type: 'error',
@@ -84,8 +84,8 @@
                     })
                     return
                 }
-                axios.post('api/tambahBarang/'+this.$route.params.id,this.formBaru,{headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
-                    .then(e=>{
+                axios.post('api/tambahBarang/' + this.$route.params.id, this.formBaru, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                    .then(e => {
                         this.$swal({
                             position: 'center',
                             type: 'success',

@@ -31,10 +31,12 @@
                                 <font-awesome-icon icon="eye"/>
                             </button>
                         </router-link>
+                        <button class="btn btn-light btn-outline-secondary btn-sm" title="Lihat Detail" @click="print(row)">
+                            <font-awesome-icon icon="print"/>
+                        </button>
                     </template>
                 </b-table>
             </b-row>
-
             <b-modal id="modal-1" ref="modal" title="Tambah titipan">
                 <b-container>
                     <div class="row">
@@ -128,6 +130,9 @@
             }
         },
         methods: {
+            print(row){
+                this.$router.push('/barcode/' + row.item.id)
+            },
             addPenitip() {
                 if (this.namaPenitip === null) {
                     this.$swal({

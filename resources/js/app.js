@@ -10,6 +10,7 @@ import Auth from "./components/Auth/Auth.js";
 import swal from 'vue-sweetalert2'
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {
+    faPrint,
     faDownload,
     faEdit,
     faCalendarTimes,
@@ -32,6 +33,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import VueCurrencyFilter from 'vue-currency-filter'
 
 library.add({
+    faPrint,
     faMoneyCheck,
     faShoppingCart,
     faHandHoldingUsd,
@@ -68,14 +70,13 @@ Vue.use(VueCurrencyFilter, {
 })
 Router.beforeEach(
     (to, from, next) => {
-        if (to.matched.some(record => record.meta.profile )){
+        if (to.matched.some(record => record.meta.profile)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
                 })
-            }else next()
-        }
-        else if (to.matched.some(record => record.meta.forAuth && record.meta.isAdmin)) {
+            } else next()
+        } else if (to.matched.some(record => record.meta.forAuth && record.meta.isAdmin)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
@@ -85,8 +86,7 @@ Router.beforeEach(
                     path: '/kasir'
                 })
             } else next()
-        }
-        else if (to.matched.some(record => record.meta.forAuth && !record.meta.isAdmin)) {
+        } else if (to.matched.some(record => record.meta.forAuth && !record.meta.isAdmin)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
@@ -96,8 +96,7 @@ Router.beforeEach(
                     path: '/dashboard'
                 })
             } else next()
-        }
-        else if (to.matched.some(record => record.meta.forVisitors)) {
+        } else if (to.matched.some(record => record.meta.forVisitors)) {
             if (Vue.auth.isAuthenticeted() && Vue.auth.isAdmin()) {
                 next({
                     path: '/dashboard'
@@ -107,8 +106,7 @@ Router.beforeEach(
                     path: '/kasir'
                 })
             } else next()
-        }
-        else if (to.matched.some(record => record.meta.forAuth)) {
+        } else if (to.matched.some(record => record.meta.forAuth)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
@@ -122,8 +120,7 @@ Router.beforeEach(
                     path: '/dashboard'
                 })
             } else next()
-        }
-        else next()
+        } else next()
     }
 );
 
