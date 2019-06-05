@@ -86,7 +86,7 @@
     export default {
         data() {
             return {
-                kategori:null,
+                kategori: null,
                 createExcelShow: false,
                 items: [
                     {
@@ -112,8 +112,8 @@
             }
         },
         methods: {
-            tambah_kategory(){
-                if(this.kategori==null){
+            tambah_kategory() {
+                if (this.kategori == null) {
                     this.$swal({
                         position: 'center',
                         type: 'error',
@@ -123,9 +123,9 @@
                     })
                     return
                 }
-                axios.post('api/createKategori',{kategori:this.kategori},{headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
-                    .then(e=>{
-                        this.kategori=null
+                axios.post('api/createKategori', {kategori: this.kategori}, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                    .then(e => {
+                        this.kategori = null
                         this.$nextTick(() => {
                             this.$refs.modal2.hide()
                             this.$refs.form_input.getKategori()
@@ -233,7 +233,7 @@
                         }
                     }
                 })
-                if (formValues) {
+                if (formValues.nama.length > 0 && formValues.telp.length > 0) {
                     axios.post('api/createExcel', {formValues}, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
                         .then(e => {
                             const Toast = this.$swal.mixin({
@@ -251,7 +251,9 @@
                 } else {
                     this.$swal.fire({
                             type: 'error',
-                            title: "Masukkan Nama Vendor!!"
+                            showConfirmButton: false,
+                            title: "Masukkan Nama Vendor atau No Telp!!",
+                            timer: 2000
                         }
                     )
                 }

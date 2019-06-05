@@ -54,6 +54,11 @@ library.add({
     faDice,
     faPiggyBank
 })
+
+import 'chart.js'
+import 'hchs-vue-charts'
+
+Vue.use(window.VueCharts)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('form_produk', require('./components/Administrator/form_produk.vue').default)
 Vue.component('form_penambahan_titipan', require('./components/Kasir/FormPenambahanTitipan.vue').default)

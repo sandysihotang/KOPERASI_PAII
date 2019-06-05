@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BarangTitipan;
 use App\Titipan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TitipanController extends Controller
 {
@@ -27,6 +28,17 @@ class TitipanController extends Controller
     public function getAllPenitip()
     {
         return Titipan::where('status_pengambilan', '=', 0)->get();
+    }
+
+    public function getAllPenitipSelesai()
+    {
+        return Titipan::select('nama_owner', 'titipans.created_at', 'titipans.id', 'potongan_pengambilan'
+            , DB::raw('SUM(barang_titipans.harga_barang*transaksi_titipans.jumlah) as harga_barang'))
+            ->join('barang_titipans','barang_titipans.titipan_id','=','titipans.id')
+            ->join('transaksi_titipans', 'transaksi_titipans.produk_titipan_id', '=', 'barang_titipans.id')
+            ->where('status_pengambilan', '=', 1)
+            ->groupBy('barang_titipans.titipan_id','transaksi_titipans.produk_titipan_id','titipans.nama_owner','titipans.created_at','titipans.id','titipans.potongan_pengambilan')
+            ->get();
     }
 
     public function getName($id)

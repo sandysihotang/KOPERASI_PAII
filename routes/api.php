@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('selesaiTransaksi/{id}', 'TransaksiController@penyelesaian');
 
     Route::get('getLaporanPenjualan', "LaporanPenjualanController@index");
+    Route::get('getForMore', "ProdukController@getForMore");
     Route::post('downloadPenjualanExcel', 'LaporanPenjualanController@download');
 
     Route::get('getDetailPenjualan/{id}', "LaporanPenjualanController@getDetail");
@@ -79,6 +80,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('ambilHargaTitipan/{id}', 'BarangTitipanController@ambilHargaTitipan');
     Route::get('simpanData/{id}', 'TitipanController@simpanData');
     Route::get('allPenitip', 'TitipanController@getAllPenitip');
+    Route::get('allPenitipSelesai', 'TitipanController@getAllPenitipSelesai');
     Route::get('getDetailUserPenitip/{id}', 'TitipanController@getName');
     Route::get('getDetailPenitipan/{id}', 'TitipanController@getAllProduk');
     Route::put('editTitipan/{id}', 'BarangTitipanController@update');

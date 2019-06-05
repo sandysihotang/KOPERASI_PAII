@@ -25,6 +25,13 @@ class ProdukController extends Controller
     public static $vendor = null;
     public static $telp_vendor = null;
 
+    public function getForMore()
+    {
+        return Produk::selectRaw('produks.nama,(select SUM(jumlah) from transaksi_produks where produks.id=transaksi_produks.produk_id) as jumlah')
+            ->orderBy('jumlah','DESC')
+            ->limit(5)->get();
+    }
+
     public function createKategori(Request $request)
     {
         $data = new Kategori();

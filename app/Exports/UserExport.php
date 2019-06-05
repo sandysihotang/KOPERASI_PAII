@@ -4,6 +4,9 @@ namespace App\Exports;
 
 use App\Http\Controllers\ProdukController;
 use App\New_produk;
+use App\VendorProduk;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -27,7 +30,8 @@ class UserExport implements FromQuery, WithMapping, WithHeadings, WithColumnForm
         return New_produk::select('produks.nama','new_produks.jumlah','new_produks.harga','produks.created_at')
             ->join('produks','produks.id','=','new_produks.produk_id')
             ->join('vendor_produks','vendor_produks.id','new_produks.vendor_produk_id')
-            ->where('vendor_produks.status_data','=',0);
+            ->where('vendor_produks.status_data','=',0)
+            ->where('vendor_produks.user_id','=',Auth::id());
     }
 
     /**
@@ -89,6 +93,10 @@ class UserExport implements FromQuery, WithMapping, WithHeadings, WithColumnForm
 
                 $event->sheet->setCellValue('G2', 'No Telepon Vendor: ');
                 $event->sheet->setCellValue('H2', ProdukController::$telp_vendor);
+
+                $event->sheet->setCellValue('G3', 'Tanggal Pemasukan: ');
+                $event->sheet->setCellValue('H3', VendorProduk::select(DB::raw('DATE(created_at) as created_at'))->where('status_data','=',0)
+                    ->where('user_id','=',Auth::id())->first()->created_at);
 
 
             },

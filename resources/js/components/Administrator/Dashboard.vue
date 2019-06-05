@@ -35,16 +35,26 @@
                 </b-col>
             </b-row>
             <b-row class="mt-3">
-                    <b-col class="float-center">
-                        <div class="wrap">
-                            <button class="button" @click="penitipanBarang">
-                                <h1>
-                                    <font-awesome-icon icon="piggy-bank"/>
-                                </h1>
-                                <br>Barang Titipan
-                            </button>
-                        </div>
-                    </b-col>
+                <b-col class="float-center">
+                    <div class="wrap">
+                        <button class="button" @click="penitipanBarang">
+                            <h1>
+                                <font-awesome-icon icon="piggy-bank"/>
+                            </h1>
+                            <br>Barang Titipan
+                        </button>
+                    </div>
+                </b-col>
+                <b-col class="float-center">
+                    <div class="wrap">
+                        <button class="button" @click="pembelianBarang">
+                            <h1>
+                                <font-awesome-icon icon="piggy-bank"/>
+                            </h1>
+                            <br>Pembelian
+                        </button>
+                    </div>
+                </b-col>
             </b-row>
         </b-container>
     </div>
@@ -74,6 +84,9 @@
             },
             penitipanBarang() {
                 this.$router.push('/laporan/penitipan')
+            },
+            pembelianBarang() {
+                this.$router.push('/pembelianterbanyak')
             }
         },
         created() {

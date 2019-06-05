@@ -22,6 +22,8 @@ import PenambahanBarangPenitip from './Kasir/PenambahanBarangPenitip.vue'
 import DetailPenitip from './Kasir/DetailTitipan.vue'
 import PrintBarcode from './Kasir/PrintBarcode.vue'
 import LaporonPenitipan from './Administrator/LaporanTitipan'
+import LaporonDetailPenitipan from './Administrator/DetailLaporanTitipan.vue'
+import Pembelian from './Administrator/PembelianProduk.vue'
 
 Vue.use(VueRoute)
 
@@ -117,8 +119,24 @@ const router = new VueRoute({
             }
         },
         {
+            path: '/pembelianterbanyak',
+            component: Pembelian,
+            meta: {
+                forAuth: true,
+                isAdmin: true
+            }
+        },
+        {
             path: '/laporan/penitipan',
             component: LaporonPenitipan,
+            meta: {
+                forAuth: true,
+                isAdmin: true
+            }
+        },
+        {
+            path: '/laporan/penitipan/detail/:id',
+            component: LaporonDetailPenitipan,
             meta: {
                 forAuth: true,
                 isAdmin: true
