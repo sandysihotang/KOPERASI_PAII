@@ -3,6 +3,84 @@
         <b-breadcrumb :items="items"></b-breadcrumb>
         <b-container style="background-color: #f8f9fa;">
             <h2 align="center">Detail Penjualan</h2>
+            <b-form @submit.prevent="downloadFileExcel">
+                <b-row>
+                    <b-col md="2">
+                        <b-dropdown :text="textOption" variant="primary" class="m-2" style="width:120px">
+                            <b-dropdown-item href="#" @click="textOption='Harian',statusWaktu=1">Harian
+                            </b-dropdown-item>
+                            <b-dropdown-item href="#" @click="textOption='Bulanan',statusWaktu=2">Bulanan
+                            </b-dropdown-item>
+                            <b-dropdown-item href="#" @click="textOption='Tahunan',statusWaktu=3">Tahunan
+                            </b-dropdown-item>
+                        </b-dropdown>
+                    </b-col>
+                    <b-col md="10" v-if="statusWaktu===1">
+                        <b-container>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    Tanggal:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" v-model="harian.hariSampai" class="form-control" min="1"
+                                           max="31">
+                                </div>
+                                <div class="col-md-1">
+                                    Bulan:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" v-model="harian.Bulan" class="form-control" min="1" max="12">
+                                </div>
+                                <div class="col-md-1">
+                                    Tahun:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" v-model="harian.tahun" class="form-control" min="1">
+                                </div>
+                            </div>
+                        </b-container>
+                    </b-col>
+                    <b-col md="10" v-if="statusWaktu===2">
+                        <b-container>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    Bulan:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" v-model="bulanan.bulanSampai" class="form-control" min="1"
+                                           max="12">
+                                </div>
+
+                                <div class="col-md-1">
+                                    Tahun:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" class="form-control" v-model="bulanan.tahun" min="1">
+                                </div>
+                            </div>
+                        </b-container>
+                    </b-col>
+                    <b-col md="10" v-if="statusWaktu===3">
+                        <b-container>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    Tahun:
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" v-model="tahunan" class="form-control" min="1">
+                                </div>
+                            </div>
+                        </b-container>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <button class="btn btn-success m-2" type="submit" style="width:120px">
+                            Export Excel
+                        </button>
+                    </b-col>
+                </b-row>
+            </b-form>
             <b-row class="alert">
                 <b-table
                     responsive
@@ -25,91 +103,6 @@
                 </b-table>
             </b-row>
             <b-row>
-                <b-col md="2">
-                    <b-dropdown :text="textOption" variant="primary" class="m-2">
-                        <b-dropdown-item href="#" @click="textOption='Harian',statusWaktu=1">Harian</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="textOption='Bulanan',statusWaktu=2">Bulanan</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="textOption='Tahunan',statusWaktu=3">Tahunan</b-dropdown-item>
-                    </b-dropdown>
-                </b-col>
-                <b-col md="10" v-if="statusWaktu===1">
-                    <b-container>
-                        <div class="row">
-                            <div class="col-md-1">
-                                Pilih tanggal:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="harian.hariMulai" class="form-control" min="1" max="31">
-                            </div>
-                            <div class="col-md-1">
-                                Sampai tanggal:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="harian.hariSampai" class="form-control" min="1" max="31">
-                            </div>
-                            <div class="col-md-1">
-                                Bulan:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="harian.Bulan" class="form-control" min="1" max="12">
-                            </div>
-                            <div class="col-md-1">
-                                Tahun:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="harian.tahun" class="form-control" min="1">
-                            </div>
-                        </div>
-                    </b-container>
-                </b-col>
-                <b-col md="10" v-if="statusWaktu===2">
-                    <b-container>
-                        <div class="row">
-                            <div class="col-md-1">
-                                Bulan:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="bulanan.bulanMulai" class="form-control" min="1" max="12">
-                            </div>
-                            <div class="col-md-1">
-                                Sampai Bulan:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="bulanan.bulanSampai" class="form-control" min="1"
-                                       max="12">
-                            </div>
-
-                            <div class="col-md-1">
-                                Tahun:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" class="form-control" v-model="bulanan.tahun" min="1">
-                            </div>
-                        </div>
-                    </b-container>
-                </b-col>
-                <b-col md="10" v-if="statusWaktu===3">
-                    <b-container>
-                        <div class="row">
-                            <div class="col-md-1">
-                                Tahun:
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" v-model="tahunan" class="form-control" min="1">
-                            </div>
-                        </div>
-                    </b-container>
-                </b-col>
-
-            </b-row>
-            <b-row>
-                <b-col>
-                    <button class="btn btn-success m-2" @click="downloadFileExcel">
-                        Export Excel
-                    </button>
-                </b-col>
-            </b-row>
-            <b-row>
                 <b-pagination
                     v-model="currentPage"
                     :total-rows="rows"
@@ -130,13 +123,11 @@
         data() {
             return {
                 harian: {
-                    hariMulai: null,
                     hariSampai: null,
                     Bulan: null,
                     tahun: null
                 },
                 bulanan: {
-                    bulanMulai: null,
                     bulanSampai: null,
                     tahun: null
                 },
@@ -194,16 +185,18 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Silahkan Pilih Waktu',
                         showConfirmButton: false,
                         timer: 1500
                     })
                     return
                 } else if (this.statusWaktu === 1) {
-                    if (this.harian.hariMulai == null || this.harian.hariSampai == null || this.harian.Bulan == null || this.harian.tahun == null) {
+                    if (this.harian.hariSampai == null || this.harian.Bulan == null || this.harian.tahun == null) {
                         this.$swal({
                             position: 'center',
                             type: 'error',
+                            width:300,
                             title: 'Silahkan Pilih waktu export',
                             showConfirmButton: false,
                             timer: 1500
@@ -213,7 +206,6 @@
 
                     axios.post('api/downloadPenjualanExcel', {
                         id: this.statusWaktu,
-                        hariMulai: this.harian.hariMulai,
                         hariSampai: this.harian.hariSampai,
                         bulan: this.harian.Bulan,
                         tahun: this.harian.tahun
@@ -225,10 +217,11 @@
                             this.downloadFile(e, 'Penjualan' + Date.now())
                         })
                 } else if (this.statusWaktu === 2) {
-                    if (this.bulanan.bulanMulai == null || this.bulanan.bulanSampai == null || this.bulanan.tahun == null) {
+                    if (this.bulanan.bulanSampai == null || this.bulanan.tahun == null) {
                         this.$swal({
                             position: 'center',
                             type: 'error',
+                            width:300,
                             title: 'Silahkan Pilih waktu export',
                             showConfirmButton: false,
                             timer: 1500
@@ -237,7 +230,6 @@
                     }
                     axios.post('api/downloadPenjualanExcel', {
                         id: this.statusWaktu,
-                        bulanMulai: this.bulanan.bulanMulai,
                         bulanSampai: this.bulanan.bulanSampai,
                         tahun: this.bulanan.tahun
                     }, {
@@ -252,6 +244,7 @@
                         this.$swal({
                             position: 'center',
                             type: 'error',
+                            width:300,
                             title: 'Silahkan Pilih waktu export',
                             showConfirmButton: false,
                             timer: 1500
@@ -294,6 +287,14 @@
                     // For Firefox it is necessary to delay revoking the ObjectURL
                     window.URL.revokeObjectURL(data)
                 }, 100)
+                this.$swal({
+                    position: 'center',
+                    type: 'success',
+                    width:300,
+                    title: 'Berhasil Mengexport Data',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         },
         created() {

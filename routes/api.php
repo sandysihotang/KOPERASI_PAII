@@ -27,7 +27,11 @@ Route::post('checkUser', 'AuthController@check');
 Route::post('/register', 'AuthController@userRegister');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('createKategori', 'ProdukController@createKategori');
+    Route::post('setStatusUser', 'AuthController@setStatusUser');
     Route::get('allProduk', 'ProdukController@index');
+    Route::get('getAllUser', 'AuthController@getAllUser');
+
+
     Route::get('getUserKonfirmation', 'AuthController@getUserKonfimation');
     Route::get('getCode/{code}', 'ProdukController@getCode');
     Route::get('konfirmasi/{code}', 'AuthController@konfirmasi');
@@ -39,6 +43,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('hargaBarangItem/{id}', 'ProdukController@hargaBarangPerItem');
     Route::get('getHargaJual/{id}', 'ProdukController@getHargaJual');
     Route::post('ubahHargaJual/{id}', 'ProdukController@ubahHargaJual');
+
+    Route::get('getSuplier','SuplierController@index');
+    Route::get('tambahSuplier/{id}','SuplierController@tambahVendorProduks');
+    Route::post('tambahSuplier','SuplierController@store');
 
 
     Route::get('getProduk/{id}', 'ProdukController@getSpesifikProduk');
@@ -65,10 +73,18 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('getLaporanPenjualan', "LaporanPenjualanController@index");
     Route::get('getForMore', "ProdukController@getForMore");
+    Route::get('getForMoreSelengkapnya', "ProdukController@getForMoreSelengkapnya");
+    Route::post('filterPembelian', "ProdukController@filterPembelian");
+    Route::post('filterPembelianSelengkapnya', "ProdukController@filterPembelianSelengkapnya");
+
     Route::post('downloadPenjualanExcel', 'LaporanPenjualanController@download');
+    Route::post('downloadPenitipanExcel', 'TitipanController@downloadLaporan');
 
     Route::get('getDetailPenjualan/{id}', "LaporanPenjualanController@getDetail");
     Route::get('getDetailUser/{id}', "LaporanPenjualanController@getUser");
+
+
+    Route::get('downloadExcelTitipan/{id}', "TitipanController@downloadLaporan");
 
 
     Route::post('createNewPenitip', 'TitipanController@createPenitip');

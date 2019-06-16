@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\BarangTitipan;
+use App\Exports\TitipansExport;
 use App\Titipan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TitipanController extends Controller
 {
+
+    public function downloadLaporan(Request $id){
+        return Excel::download(new TitipansExport($id), 'Titipan.xlsx');
+
+    }
+
     public function createPenitip(Request $request)
     {
         $data = new Titipan;

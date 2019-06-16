@@ -32,7 +32,7 @@
             return {
                 itemBreadCrumbs: [
                     {
-                        text: 'Kasir',
+                        text: 'Dashboard',
                         active: true
                     }
                 ]
@@ -61,8 +61,8 @@
     }
 
     .button {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
         text-transform: uppercase;

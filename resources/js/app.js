@@ -28,7 +28,8 @@ import {
     faHandHoldingUsd,
     faShoppingCart,
     faMoneyCheck,
-    faDice
+    faDice,
+    faChartBar
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import VueCurrencyFilter from 'vue-currency-filter'
@@ -52,7 +53,8 @@ library.add({
     faFileExcel,
     faFileDownload,
     faDice,
-    faPiggyBank
+    faPiggyBank,
+    faChartBar
 })
 
 import 'chart.js'
@@ -62,6 +64,7 @@ Vue.use(window.VueCharts)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('form_produk', require('./components/Administrator/form_produk.vue').default)
 Vue.component('form_penambahan_titipan', require('./components/Kasir/FormPenambahanTitipan.vue').default)
+Vue.component('form_suplier', require('./components/Kasir/Suplier.vue').default)
 Vue.component('app', require('./components/App.vue').default)
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
@@ -83,46 +86,81 @@ Router.beforeEach(
                     path: '/'
                 })
             } else next()
+        } else if (to.matched.some(record => record.meta.forAuth && record.meta.forAdmin)) {
+            if (!Vue.auth.isAuthenticeted()) {
+                next({
+                    path: '/'
+                })
+            } else if ((Vue.auth.isAdmin() == 0 || Vue.auth.isAdmin() == 1) && (to.path !== '/dashboard' || to.path !== '/kasir')) {
+                if (Vue.auth.isAdmin() == 0) {
+                    next({
+                        path: '/kasir'
+                    })
+                } else {
+                    next({
+                        path: '/dashboard'
+                    })
+                }
+            } else next()
+
         } else if (to.matched.some(record => record.meta.forAuth && record.meta.isAdmin)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
                 })
-            } else if (!Vue.auth.isAdmin() && to.path !== '/kasir') {
-                next({
-                    path: '/kasir'
-                })
+            } else if ((Vue.auth.isAdmin() == 0 || Vue.auth.isAdmin() == 2) && (to.path !== '/kasir' || to.path !== '/dashboardAdministrator')) {
+                if (Vue.auth.isAdmin() == 0) {
+                    next({
+                        path: '/kasir'
+                    })
+                } else if(Vue.auth.isAdmin() == 2 && to.path == '/dashboard'){
+                    next({
+                        path: '/dashboardAdministrator'
+                    })
+                }else next()
             } else next()
         } else if (to.matched.some(record => record.meta.forAuth && !record.meta.isAdmin)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
                 })
-            } else if (Vue.auth.isAdmin() && to.path !== '/dashboard') {
-                next({
-                    path: '/dashboard'
-                })
+            } else if ((Vue.auth.isAdmin() == 1 || Vue.auth.isAdmin() == 2) && (to.path !== '/dashboard' || to.path !== '/dashboardAdministrator')) {
+                if (Vue.auth.isAdmin() == 1) {
+                    next({
+                        path: '/dashboard'
+                    })
+                } else if(Vue.auth.isAdmin() == 2 && to.path == '/kasir') {
+                    next({
+                        path: '/dashboardAdministrator'
+                    })
+                }else next()
             } else next()
         } else if (to.matched.some(record => record.meta.forVisitors)) {
-            if (Vue.auth.isAuthenticeted() && Vue.auth.isAdmin()) {
-                next({
-                    path: '/dashboard'
-                })
-            } else if (Vue.auth.isAuthenticeted() && !Vue.auth.isAdmin()) {
-                next({
-                    path: '/kasir'
-                })
+            if (Vue.auth.isAuthenticeted() && (Vue.auth.isAdmin() == 1 || Vue.auth.isAdmin() == 2 || Vue.auth.isAdmin() == 0)) {
+                if (Vue.auth.isAdmin() == 1) {
+                    next({
+                        path: '/dashboard'
+                    })
+                } else if (Vue.auth.isAdmin() == 0) {
+                    next({
+                        path: '/kasir'
+                    })
+                } else {
+                    next({
+                        path: '/dashboardAdministrator'
+                    })
+                }
             } else next()
         } else if (to.matched.some(record => record.meta.forAuth)) {
             if (!Vue.auth.isAuthenticeted()) {
                 next({
                     path: '/'
                 })
-            } else if (!Vue.auth.isAdmin() && to.path !== '/kasir') {
+            } else if ((Vue.auth.isAdmin() == 0 || Vue.auth.isAdmin() === 2) && to.path !== '/kasir') {
                 next({
                     path: '/kasir'
                 })
-            } else if (Vue.auth.isAdmin() && to.path !== '/dashboard') {
+            } else if ((Vue.auth.isAdmin() == 1 || Vue.auth.isAdmin() === 2) && to.path !== '/dashboard') {
                 next({
                     path: '/dashboard'
                 })

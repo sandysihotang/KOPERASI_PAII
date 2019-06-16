@@ -48,6 +48,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi form email',
                         showConfirmButton: false,
                         timer: 1500
@@ -61,6 +62,7 @@
                         this.$swal({
                             position: 'center',
                             type: 'success',
+                            width:300,
                             title: 'Request Berhasil Periksa Email anda!',
                             showConfirmButton: false,
                             timer: 1500

@@ -3,16 +3,31 @@
         <b-breadcrumb :items="itemsProduk"></b-breadcrumb>
         <b-container>
             <b-row class="alert" style="background-color: #f8f9fa;">
-                <b-form-group>
-                    <b-input-group>
-                        <b-input-group-append>
-                            <button type="button" class="btn btn-success" v-b-modal.modal-1>
-                                <font-awesome-icon icon="plus"/>
-                                Tambah Titipan
-                            </button>
-                        </b-input-group-append>
-                    </b-input-group>
-                </b-form-group>
+                <b-col>
+                    <b-form-group>
+                        <b-input-group>
+                            <b-input-group-append>
+                                <button type="button" class="btn btn-success" v-b-modal.modal-1>
+                                    <font-awesome-icon icon="plus"/>
+                                    Tambah Titipan
+                                </button>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group class="float-right">
+                        <b-input-group>
+                            <b-input-group-append>
+                                <router-link :to="'/riwayat'">
+                                    <button type="button" class="btn btn-primary">
+                                        Riwayat Titipan
+                                    </button>
+                                </router-link>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
             </b-row>
             <b-row class="alert" style="background-color: #f8f9fa;">
                 <p class="mt-3 alert-primary">Current Page: {{ currentPage }}</p>
@@ -88,7 +103,7 @@
                 namaPenitip: null,
                 itemsProduk: [
                     {
-                        text: 'Kasir',
+                        text: 'Dashboard',
                         to: {
                             path: '/kasir'
                         }
@@ -138,6 +153,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi Nama Penitip',
                         showConfirmButton: false,
                         timer: 1500

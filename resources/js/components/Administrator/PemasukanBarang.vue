@@ -117,6 +117,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width: 300,
                         title: 'Isi Kategori',
                         showConfirmButton: false,
                         timer: 1500
@@ -132,6 +133,7 @@
                             this.$swal({
                                 position: 'center',
                                 type: 'success',
+                                width: 300,
                                 title: 'Berhasil menambah kategori',
                                 showConfirmButton: false,
                                 timer: 1500
@@ -146,6 +148,7 @@
                         const Toast = this.$swal.mixin({
                             toast: true,
                             position: 'top-end',
+                            width: 300,
                             showConfirmButton: false,
                             timer: 3000
                         });
@@ -223,8 +226,8 @@
                 const {value: formValues} = await this.$swal.fire({
                     title: 'Masukkan Data Vendor',
                     html:
-                        '<label for="swal-input1" style="font-size:25px;">Nama Vendor: </label><br><input id="swal-input1" class="swal2-input" placeholder="Nama Vendor""><br>' +
-                        '<label for="swal-input2" style="font-size:25px;">No Telepon Vendor:</label><br><input id="swal-input2" class="swal2-input" placeholder="No Telepone">',
+                        '<label for="swal-input1" style="font-size:25px;">Nama Suplier: </label><br><input id="swal-input1" class="swal2-input" placeholder="Nama Vendor""><br>' +
+                        '<label for="swal-input2" style="font-size:25px;">No Telepon Suplier:</label><br><input id="swal-input2" class="swal2-input" placeholder="No Telepone">',
                     focusConfirm: false,
                     preConfirm: () => {
                         return {
@@ -251,6 +254,7 @@
                 } else {
                     this.$swal.fire({
                             type: 'error',
+                            width: 300,
                             showConfirmButton: false,
                             title: "Masukkan Nama Vendor atau No Telp!!",
                             timer: 2000

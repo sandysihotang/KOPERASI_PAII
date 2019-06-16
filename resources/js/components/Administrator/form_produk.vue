@@ -25,11 +25,23 @@
                 <center>Tambah Produk Untuk <b>{{ nama_barang }}</b></center>
                 <b-form @submit.prevent="addProductTambah">
                     <b-form-group>
-                        <label>Harga</label>
+                        <label>Harga Beli</label>
                         <b-input-group>
                             <CurrencyInput
                                 class="form-control"
                                 v-model="form.harga"
+                                :currency="currency_input.currency"
+                                :locale="currency_input.locale"
+                                :validate-on-input="true"
+                            />
+                        </b-input-group>
+                    </b-form-group>
+                    <b-form-group>
+                        <label>Harga Jual</label>
+                        <b-input-group>
+                            <CurrencyInput
+                                class="form-control"
+                                v-model="form.hargaJual"
                                 :currency="currency_input.currency"
                                 :locale="currency_input.locale"
                                 :validate-on-input="true"
@@ -65,15 +77,25 @@
                                         :options="kategories">
                                     </b-form-select>
                                 </b-form-group>
+                                <b-form-group label="Harga Beli">
+                                    <CurrencyInput
+                                        class="form-control"
+                                        v-model="formBaru.harga"
+                                        :currency="currency_input.currency"
+                                        :locale="currency_input.locale"
+                                        :validate-on-input="true"
+                                    />
+                                </b-form-group>
                             </b-col>
                             <b-col>
-                                <b-form-group label="Harga">
-                                    <b-form-input
-                                        type="number"
-                                        min="1"
-                                        v-model="formBaru.harga"
-                                        placeholder="Masukkan Harga"
-                                        required></b-form-input>
+                                <b-form-group label="Harga Jual">
+                                    <CurrencyInput
+                                        class="form-control"
+                                        v-model="formBaru.hargaJual"
+                                        :currency="currency_input.currency"
+                                        :locale="currency_input.locale"
+                                        :validate-on-input="true"
+                                    />
                                 </b-form-group>
                                 <b-form-group label="Jumlah Stock">
                                     <b-form-input
@@ -112,7 +134,8 @@
                 form: {
                     jumlah: null,
                     id: null,
-                    harga: 1
+                    harga: 1,
+                    hargaJual:2
                 },
                 kategories: [{text: 'Select one', value: null}],
                 show: true,
@@ -120,7 +143,8 @@
                 nama_barang: null,
                 formBaru: {
                     nama: null,
-                    harga: null,
+                    harga: 1,
+                    hargaJual: 2,
                     jumlah: null,
                     kategori: null,
                     kode: null
@@ -136,6 +160,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi form Kode barang',
                         showConfirmButton: false,
                         timer: 1500
@@ -156,11 +181,23 @@
                     })
             },
             addProductTambah() {
-                if (this.form.jumlah === null || this.form.id === null || this.form.harga === 0) {
+                if (this.form.jumlah === null || this.form.id === null || this.form.harga === 0 || this.form.hargaJual === 0) {
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi Semua Form',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return
+                }
+                if (this.form.harga >= this.form.hargaJual) {
+                    this.$swal({
+                        position: 'center',
+                        type: 'error',
+                        width:300,
+                        title: 'Harga Beli tidak boleh lebih besar atau sama dengan Harga Jual!',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -175,17 +212,30 @@
                 this.$swal({
                     position: 'center',
                     type: 'success',
+                    width:300,
                     title: 'Produk Berhasil Ditambah',
                     showConfirmButton: false,
                     timer: 1500
                 })
             },
             addProductBaru() {
-                if (this.formBaru.nama === null || this.formBaru.harga === null || this.formBaru.jumlah === null || this.formBaru.kategori === null || this.formBaru.kode === null) {
+                if (this.formBaru.nama === null || this.formBaru.harga === null || this.formBaru.hargaJual === null || this.formBaru.jumlah === null || this.formBaru.kategori === null || this.formBaru.kode === null) {
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi Semua Form',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return
+                }
+                if (this.formBaru.harga >= this.formBaru.hargaJual) {
+                    this.$swal({
+                        position: 'center',
+                        type: 'error',
+                        width:300,
+                        title: 'Harga Beli tidak boleh lebih besar atau sama dengan Harga Jual!',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -199,6 +249,7 @@
                 this.$swal({
                     position: 'center',
                     type: 'success',
+                    width:300,
                     title: 'Produk Berhasil Ditambah',
                     showConfirmButton: false,
                     timer: 1500

@@ -49,7 +49,7 @@
                     <div class="wrap">
                         <button class="button" @click="pembelianBarang">
                             <h1>
-                                <font-awesome-icon icon="piggy-bank"/>
+                                <font-awesome-icon icon="chart-bar"/>
                             </h1>
                             <br>Pembelian
                         </button>
@@ -104,8 +104,8 @@
     }
 
     .button {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
         text-transform: uppercase;

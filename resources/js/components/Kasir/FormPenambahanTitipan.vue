@@ -35,7 +35,7 @@
                     </b-form-group>
                 </b-row>
                 <div class="float-right">
-                    <b-button variant="success" @click="addProdukTitipan"><i class="fa fa-plus"></i> Simpan
+                    <b-button variant="success" @click="addProdukTitipan"><i class="fa fa-plus"></i> Tambahkan
                     </b-button>
                     <b-button variant="Danger" class="ml-2" @click="resetData">Reset</b-button>
                 </div>
@@ -78,6 +78,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi Semua Form',
                         showConfirmButton: false,
                         timer: 1500
@@ -88,6 +89,7 @@
                     .then(e => {
                         this.$swal({
                             position: 'center',
+                            width:300,
                             type: 'success',
                             title: 'Berhasil Menambah',
                             showConfirmButton: false,

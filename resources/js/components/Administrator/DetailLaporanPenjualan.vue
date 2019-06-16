@@ -51,7 +51,7 @@
                     },
                     {
                         text: 'Laporan',
-                        to: {path: '/laporan/pemasukan'}
+                        to: {path: '/laporan/penjualan'}
                     },
                     {
                         text: 'Detail Laporan',

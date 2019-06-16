@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SKU PiDel') }}</title>
+    <title>KOPERASI IT DEL</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -20,7 +20,7 @@
 <body>
 <main class="page-content">
         @yield("content")
-    </div>
+
 </main>
 </body>
 </html>

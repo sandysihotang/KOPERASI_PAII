@@ -24,6 +24,10 @@ import PrintBarcode from './Kasir/PrintBarcode.vue'
 import LaporonPenitipan from './Administrator/LaporanTitipan'
 import LaporonDetailPenitipan from './Administrator/DetailLaporanTitipan.vue'
 import Pembelian from './Administrator/PembelianProduk.vue'
+import DashboardForAdmin from './DashboardForAdmin.vue'
+import DaftarUser from './DaftarUser.vue'
+import RiwayatTitipan from "./Kasir/RiwayatTitipan";
+import DetailBarangTitipan from "./Kasir/DetailBarangTitipan";
 
 Vue.use(VueRoute)
 
@@ -70,6 +74,22 @@ const router = new VueRoute({
             meta: {
                 forAuth: true,
                 isAdmin: true
+            }
+        },
+        {
+            path: '/dashboardAdministrator',
+            component: DashboardForAdmin,
+            meta: {
+                forAuth: true,
+                forAdmin: true
+            }
+        },
+        {
+            path: '/daftarUser',
+            component: DaftarUser,
+            meta: {
+                forAuth: true,
+                forAdmin: true
             }
         },
         {
@@ -207,6 +227,22 @@ const router = new VueRoute({
         {
             path: '/detailpenitip/:id',
             component: DetailPenitip,
+            meta: {
+                forAuth: true,
+                isAdmin: false
+            }
+        },
+        {
+            path: '/riwayat',
+            component: RiwayatTitipan,
+            meta: {
+                forAuth: true,
+                isAdmin: false
+            }
+        },
+        {
+            path: '/detail/:id',
+            component: DetailBarangTitipan,
             meta: {
                 forAuth: true,
                 isAdmin: false

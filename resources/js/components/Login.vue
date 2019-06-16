@@ -10,15 +10,17 @@
 
             <!-- Login Form -->
             <div class="mt-2">
-                <input v-model="form.email" type="email" id="login" class="fadeIn second"
-                       placeholder="Email">
-                <input v-model="form.password" type="password" id="password" class="fadeIn third"
-                       placeholder="Password">
-                <b-button class="fadeIn fourth" :disabled="isLoading"
-                          @click="login">Login<br>
-                    <b-spinner v-show="isLoading" label="Spinning"
-                               style="font-size:20px;max-width:90%!important;"></b-spinner>
-                </b-button>
+                <b-form @submit.prevent="login">
+                    <input v-model="form.email" type="email" id="login" class="fadeIn second"
+                           placeholder="Email">
+                    <input v-model="form.password" type="password" id="password" class="fadeIn third"
+                           placeholder="Password">
+                    <b-button variant="primary" v-show="!isLoading" type="submit">Login</b-button>
+                    <b-button v-show="isLoading" variant="primary" disabled>
+                        <b-spinner small type="grow"></b-spinner>
+                        Loading...
+                    </b-button>
+                </b-form>
             </div>
             <div class="row mb-3">
                 <b-col md="7">
@@ -110,7 +112,8 @@
                                     this.$swal({
                                         position: 'center',
                                         type: 'error',
-                                        title: 'Anda Tidak Terdaftar!',
+                                        width:300,
+                                        title: 'Email atau Password yang anda masukkan salah',
                                         showConfirmButton: false,
                                         timer: 1500
                                     })

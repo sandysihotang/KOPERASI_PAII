@@ -38,10 +38,7 @@ export default function (Vue) {
             return data
         },
         isAdmin(){
-            if(localStorage.getItem("isAdmin")==1){
-                return true
-            }
-            return false
+            return localStorage.getItem("isAdmin")
         }
     }
     Object.defineProperties(Vue.prototype, {

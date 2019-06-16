@@ -5,8 +5,8 @@
                   enctype="multipart/form-data">
                 <div class="col-sm-3">
                     <div class="text-center">
-                        <img v-if="formData.avatar!==''" :src="formData.avatar" class="img-circle img-thumbnail">
-                        <img v-if="formData.avatar===''" :src="'./storage/Image/avatar_2x.png'" style="width:900px;"
+                        <img v-if="formData.avatar!==null" :src="formData.avatar" class="img-circle img-thumbnail">
+                        <img v-if="formData.avatar===null" :src="'./storage/Image/avatar_2x.png'" style="width:900px;"
                              class="img-circle img-thumbnail">
                         <h6>Upload Photo</h6>
                         <input type="file" @change="onImageChange" class="text-center center-block file-upload">

@@ -50,7 +50,7 @@
                         to: {path: '/dashboard'}
                     },
                     {
-                        text: 'Penjualan Produk',
+                        text: 'Pemasukan Produk',
                         active: true
                     }
                 ],
@@ -99,7 +99,7 @@
                     responseType: 'arraybuffer'
                 })
                     .then(e => {
-                        this.downloadFile(e, 'Pemasukan')
+                        this.downloadFile(e, 'Pemasukan'+Date.now())
                     })
             },
             downloadFile(response, filename) {

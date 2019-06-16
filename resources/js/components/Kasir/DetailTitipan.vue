@@ -8,7 +8,7 @@
                 </b-col>
                 <b-button v-b-modal.modal-2 variant="primary">
                     <font-awesome-icon icon="download"/>
-                    Ambil Titipan
+                    Ambil Uang Titipan
                 </b-button>
                 <b-button v-b-modal.modal-1 class="btn btn-success">
                     <font-awesome-icon icon="plus-circle"/>
@@ -56,7 +56,8 @@
             <b-container>
                 <b-row>
                     <b-form-group class="col-md-12" label="Jumlah Uang">
-                        <input type="text" class="form-control" :value="hargaTitipan | currency" disabled placeholder="Jumlah Uang">
+                        <input type="text" class="form-control" :value="hargaTitipan | currency" disabled
+                               placeholder="Jumlah Uang">
                     </b-form-group>
                 </b-row>
                 <b-row>
@@ -66,7 +67,9 @@
                 </b-row>
                 <b-row>
                     <b-form-group class="col-md-12" label="Uang diambil Setelah Potongan">
-                        <input type="text" class="form-control" :value="hargaTitipan-(hargaTitipan*pemotongan/100) | currency" disabled placeholder="SetelahPemotongan">
+                        <input type="text" class="form-control"
+                               :value="hargaTitipan-(hargaTitipan*pemotongan/100) | currency" disabled
+                               placeholder="SetelahPemotongan">
                     </b-form-group>
                 </b-row>
                 <b-button class="float-right" variant="success" @click="ambilTitipan()">Ambil Titipan</b-button>
@@ -96,11 +99,10 @@
                 },
                 perPage: 10,
                 currentPage: 1,
-
                 id: this.$route.params.id,
                 items: [
                     {
-                        text: 'Kasir',
+                        text: 'Dashboard',
                         to: {
                             path: '/kasir'
                         }
@@ -156,14 +158,14 @@
                         label: "Total",
                     }
                 ],
-                hargaTitipan:0,
-                pemotongan:1
+                hargaTitipan: 0,
+                pemotongan: 1
             }
         },
         methods: {
-            ambilTitipan(){
-                axios.post('api/ambilTitipan/'+this.id,{potongan:this.pemotongan}, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
-                    .then(e=>{
+            ambilTitipan() {
+                axios.post('api/ambilTitipan/' + this.id, {potongan: this.pemotongan}, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
+                    .then(e => {
                         this.$swal({
                             position: 'center',
                             type: 'success',
@@ -177,7 +179,7 @@
             fetchHargaTotal() {
                 axios.get('api/ambilHargaTitipan/' + this.id, {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
                     .then(e => {
-                        this.hargaTitipan=e.data.total
+                        this.hargaTitipan = e.data.total
                     })
             },
             fetchDataById() {

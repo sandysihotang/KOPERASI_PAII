@@ -5,16 +5,34 @@ namespace App\Http\Controllers;
 use App\Mail\ForgotPasswordMail;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function setStatusUser(Request $request){
+        $data=User::find($request->id);
+        $data->isAdmin=$request->isAdmin;
+        $data->save();
+    }
+    public function getAllUser(){
+        return User::select('*')->orderBy('isAdmin','DESC')->get();
+    }
 
     public function ubah(Request $request, $id)
     {
         $data = User::find($id);
-        $data->password = bcrypt($request->password);
+        $data2 = array();
+        $data2['password lama'] = $data->password;
+        $data2['password baru'] = Hash::make($request->password);
+        if(Hash::check($request->password,$data->password)){
+            $data1 = array();
+            $data1['message'] = "Password sama";
+            return response(json_encode($data1),404)
+                ->header('Content-Type', 'text/plain');
+        }
+        $data->password = Hash::make($request->password);
         $data->save();
 
     }

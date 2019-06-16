@@ -15,7 +15,6 @@ class LaporanPenjualanController extends Controller
         return Transaksi::with('user')->get();
     }
 
-
     public function download(Request $request)
     {
         return Excel::download(new PenjualanHarianExport($request), 'penjualan.xlsx');

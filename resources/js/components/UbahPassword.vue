@@ -49,6 +49,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi form password',
                         showConfirmButton: false,
                         timer: 1500
@@ -58,18 +59,28 @@
                 this.show=true;
                 axios.post('api/verify/'+this.id,this.form)
                     .then(e=>{
-                        console.log(e)
                         this.$swal({
                             position: 'center',
                             type: 'success',
+                            width:300,
                             title: 'Password Berhasil Diubah',
                             showConfirmButton: false,
                             timer: 1500
                         })
                         this.form.password=null
+                        this.show=false
+                        this.$router.push('/')
                     })
                     .catch(e=>{
-                        console.log(e)
+                        this.$swal({
+                            position: 'center',
+                            type: 'error',
+                            width:300,
+                            title: 'Password harus beda dari sebelumnya',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        this.show=false
                     })
             }
         }

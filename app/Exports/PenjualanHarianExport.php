@@ -2,8 +2,6 @@
 
 namespace App\Exports;
 
-use App\Http\Controllers\LaporanPenjualanController;
-use App\Http\Controllers\ProdukController;
 use App\Transaksi;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -42,15 +40,13 @@ class PenjualanHarianExport implements FromQuery, WithMapping, WithHeadings, Wit
                 , 'total_harga', 'transaksis.created_at')
                 ->join('users', 'users.id', '=', 'transaksis.user_id')
                 ->whereMonth('transaksis.created_at', '=', $this->request->bulanSampai)
-                ->whereMonth('transaksis.created_at', '=', $this->request->bulanMulai)
                 ->whereYear('transaksis.created_at', '=', $this->request->tahun);
         } else if ($this->request->id == 1) {
 
             $data = Transaksi::select('kode_transaksi', 'users.name'
                 , 'total_harga', 'transaksis.created_at')
                 ->join('users', 'users.id', '=', 'transaksis.user_id')
-                ->whereDay('transaksis.created_at', '<=', $this->request->hariSampai)
-                ->whereDay('transaksis.created_at', '>=', $this->request->hariMulai)
+                ->whereDay('transaksis.created_at', '=', $this->request->hariSampai)
                 ->whereMonth('transaksis.created_at', '=', $this->request->bulan)
                 ->whereYear('transaksis.created_at', '=', $this->request->tahun);
         } else if ($this->request->id == 3) {
@@ -114,22 +110,7 @@ class PenjualanHarianExport implements FromQuery, WithMapping, WithHeadings, Wit
         ];
         return [
             BeforeSheet::class => function (BeforeSheet $event) {
-                $event->sheet->setCellValue('G1', 'Total Penjualan: ');
-                $data=null;
-                if($this->request->id==1){
-                    $data=Transaksi::whereDay('transaksis.created_at', '<=', $this->request->hariSampai)
-                        ->whereDay('transaksis.created_at', '>=', $this->request->hariMulai)
-                        ->whereMonth('transaksis.created_at', '=', $this->request->bulan)
-                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)
-                        ->sum('total_harga');
-                }else if($this->request->id==2){
-                    $data=Transaksi::whereMonth('transaksis.created_at', '<=', $this->request->bulanSampai)
-                        ->whereMonth('transaksis.created_at', '>=', $this->request->bulanMulai)
-                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)->sum('total_harga');
-                }else{
-                    $data=Transaksi::whereYear('transaksis.created_at', '=', $this->request->tahun)->sum('total_harga');
-                }
-                $event->sheet->setCellValue('H1',$data);
+
 //
 //                $event->sheet->setCellValue('G2', 'Kode Transaksi: ');
 //                $event->sheet->setCellValue('H2',Transaksi::where('id', '=', LaporanPenjualanController::$id)->first()->kode_transaksi);
@@ -138,7 +119,47 @@ class PenjualanHarianExport implements FromQuery, WithMapping, WithHeadings, Wit
 
             AfterSheet::class => function (AfterSheet $event) use ($styleArray) {
                 $event->sheet->getStyle('A1:E1')->applyFromArray($styleArray);
+                $data = null;
+                $cnt = null;
+                if ($this->request->id == 1) {
+                    $data = Transaksi::whereDay('transaksis.created_at', '<=', $this->request->hariSampai)
+                        ->whereMonth('transaksis.created_at', '=', $this->request->bulan)
+                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)
+                        ->sum('total_harga');
+                    $cnt = Transaksi::whereDay('transaksis.created_at', '<=', $this->request->hariSampai)
+                        ->whereMonth('transaksis.created_at', '=', $this->request->bulan)
+                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)
+                        ->count('id');
+                } else if ($this->request->id == 2) {
+                    $data = Transaksi::whereMonth('transaksis.created_at', '<=', $this->request->bulanSampai)
+                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)->sum('total_harga');
+                    $cnt=Transaksi::whereMonth('transaksis.created_at', '<=', $this->request->bulanSampai)
+                        ->whereYear('transaksis.created_at', '=', $this->request->tahun)->count('id');
+                } else {
+                    $data = Transaksi::whereYear('transaksis.created_at', '=', $this->request->tahun)->sum('total_harga');
+                    $cnt=Transaksi::whereYear('transaksis.created_at', '=', $this->request->tahun)->count('id');
+                }
+
+                $event->sheet->setCellValue('A'.($cnt+3), 'Total Penjualan: ');
+                $event->sheet->setCellValue('B'.($cnt+3),'Rp '.$this->convert($data).',00');
             },
         ];
+    }
+
+    public function convert($data){
+        $temp=''.$data;
+        $newData='';
+        $cnt=0;
+        for ($i=strlen($temp)-1 ; $i>=0;$i--){
+            $newData.=$temp[$i];
+            $cnt++;
+            if($cnt==3 && $i!=0){
+                $newData.='.';
+                $cnt=0;
+            }
+        }
+        $convert='';
+        for ($i=strlen($newData)-1 ; $i>=0;$i--)$convert.=$newData[$i];
+        return $convert;
     }
 }

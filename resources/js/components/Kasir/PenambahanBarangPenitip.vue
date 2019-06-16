@@ -8,11 +8,11 @@
                         <div class="row float-right mb-2">
                             <b-button v-if="!datas.length && !createExcelShow" disabled class="btn btn-primary mr-1">
                                 <font-awesome-icon icon="download"/>
-                                Simpan Data
+                                Generate Barcode
                             </b-button>
                             <b-button v-else-if="datas.length" class="btn btn-primary mr-1" @click="simpanData">
                                 <font-awesome-icon icon="download"/>
-                                Simpan Data
+                                Generate Barcode
                             </b-button>
                             <b-button v-else-if="createExcelShow" class="btn btn-primary mr-1" disabled>
                                 <b-spinner small type="grow"></b-spinner>

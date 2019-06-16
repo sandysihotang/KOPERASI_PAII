@@ -27,9 +27,81 @@ class ProdukController extends Controller
 
     public function getForMore()
     {
-        return Produk::selectRaw('produks.nama,(select SUM(jumlah) from transaksi_produks where produks.id=transaksi_produks.produk_id) as jumlah')
-            ->orderBy('jumlah','DESC')
+        return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+            ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+            ->groupBy('produks.nama')
+            ->orderBy('jumlah', 'DESC')
             ->limit(5)->get();
+    }
+
+    public function getForMoreSelengkapnya()
+    {
+        return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+            ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+            ->groupBy('produks.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get();
+    }
+
+    public function filterPembelian(Request $request)
+    {
+        if ($request->statusWaktu == 1) {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereDay('transaksi_produks.created_at', '=', $request->waktu['hariSampai'])
+                ->whereMonth('transaksi_produks.created_at', '=', $request->waktu['Bulan'])
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu['tahun'])
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->limit(5)
+                ->get();
+        } elseif ($request->statusWaktu == 2) {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereMonth('transaksi_produks.created_at', '=', $request->waktu['bulanSampai'])
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu['tahun'])
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->limit(5)
+                ->get();
+        } else {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu)
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->limit(5)
+                ->get();
+        }
+    }
+
+    public function filterPembelianSelengkapnya(Request $request)
+    {
+        if ($request->statusWaktu == 1) {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereDay('transaksi_produks.created_at', '=', $request->waktu['hariSampai'])
+                ->whereMonth('transaksi_produks.created_at', '=', $request->waktu['Bulan'])
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu['tahun'])
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->get();
+        } elseif ($request->statusWaktu == 2) {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereMonth('transaksi_produks.created_at', '=', $request->waktu['bulanSampai'])
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu['tahun'])
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->get();
+        } else {
+            return Produk::selectRaw('produks.nama,SUM(jumlah) as jumlah')
+                ->leftJoin('transaksi_produks', 'transaksi_produks.produk_id', '=', 'produks.id')
+                ->whereYear('transaksi_produks.created_at', '=', $request->waktu)
+                ->groupBy('produks.nama')
+                ->orderBy('jumlah', 'DESC')
+                ->get();
+        }
     }
 
     public function createKategori(Request $request)
@@ -79,6 +151,7 @@ class ProdukController extends Controller
     {
         return HargaBarang::where('produk_id', '=', $id)
             ->where('harga', '<>', 0)
+            ->orderBy('created_at',"DESC")
             ->get();
     }
 
@@ -125,6 +198,11 @@ class ProdukController extends Controller
         $product->code_produk = $request->kode;
         $product->save();
 
+        $hargaJualBaru=new HargaJual();
+        $hargaJualBaru->harga_jual=$request->hargaJual;
+        $hargaJualBaru->produk_id=$product->id;
+        $hargaJualBaru->save();
+
         $newproduct = new New_produk();
         $newproduct->produk_id = $product->id;
         $newproduct->harga = $request->harga;
@@ -169,6 +247,16 @@ class ProdukController extends Controller
             $productFind->harga = $request->harga;
             $productFind->vendor_produk_id = $id;
             $productFind->save();
+        }
+        $prd=HargaJual::where('produk_id','=',$request->id)->first();
+        if($prd==null){
+            $hargaJualBaru=new HargaJual();
+            $hargaJualBaru->harga_jual=$request->hargaJual;
+            $hargaJualBaru->produk_id=$request->id;
+            $hargaJualBaru->save();
+        }else{
+            $prd->harga_jual=$request->hargaJual;
+            $prd->save();
         }
     }
 

@@ -14,10 +14,13 @@
                 <b-form-group>
                     <b-input-group>
                         <b-input-group-append>
-                            <button type="button" @click="pemasukanBarang" class="btn btn-success">
+                            <button type="button" v-b-modal.modal-1 class="btn btn-success"><!--@click="pemasukanBarang"-->
                                 <font-awesome-icon icon="plus"/>
                                 Tambah Pemasukan Barang
                             </button>
+                            <b-modal id="modal-1" ref="modal1" title="Tambah Produk" hide-footer>
+                                <form_suplier></form_suplier>
+                            </b-modal>
                         </b-input-group-append>
                     </b-input-group>
                 </b-form-group>
@@ -124,7 +127,7 @@
                 harga_jual: null,
                 itemsProduk: [
                     {
-                        text: 'Kasir',
+                        text: 'Dashboard',
                         to: {
                             path: '/kasir'
                         }
@@ -187,7 +190,7 @@
                             sortable: true
                         },
                         {
-                            key: 'updated_at',
+                            key: 'created_at',
                             label: 'Penggunaan',
                             sortable: true,
                             formatter: value => {
@@ -217,6 +220,7 @@
                     this.$swal({
                         position: 'center',
                         type: 'error',
+                        width:300,
                         title: 'Isi Harga Barang',
                         showConfirmButton: false,
                         timer: 1500
@@ -228,6 +232,7 @@
                         this.$swal({
                             position: 'center',
                             type: 'success',
+                            width:300,
                             title: 'Berhasil Mengubah Harga Barang',
                             showConfirmButton: false,
                             timer: 1500

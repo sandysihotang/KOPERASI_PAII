@@ -15,13 +15,11 @@ class CreateVendorProduksTable extends Migration
     {
         Schema::create('vendor_produks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama_vendor')->nullable();
+            $table->unsignedInteger('vendor_id');
             $table->unsignedInteger('user_id')->nullable();
-            $table->string('no_telepon')->nullable();
-            $table->boolean('status_data')->default(0);
-            $table->string('excel_file')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('vendor_id')->references('id')->on('supliers');
         });
     }
 

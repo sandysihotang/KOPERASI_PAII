@@ -1,7 +1,9 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark" style="background-color: #212731;">
-            <a class="navbar-brand" href="#" @click="goToDashboard"><h2>KOPERASI IT DEL</h2></a>
+            <router-link :to="'/dashboard'">
+                <a class="navbar-brand" href="#"><h2>KOPERASI IT DEL</h2></a>
+            </router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
                     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -11,7 +13,9 @@
                     <li class="nav-item dropdown" style="cursor: pointer;">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">{{ name }}
-                            <img :src="avatar" class="avatar border" alt="">
+                            <img v-if="avatar!==null" :src="avatar" class="avatar border" alt="">
+                            <img v-if="avatar===null" :src="'./storage/Image/avatar_2x.png'"
+                                 class="avatar border">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-cyan"
                              aria-labelledby="navbarDropdownMenuLink-4">
@@ -19,8 +23,11 @@
                             <router-link to="/profile">
                                 <a class="dropdown-item" href="#">Profile</a>
                             </router-link>
-                            <router-link to="/konfirmasi" v-show="isAdmin()">
-                                <a class="dropdown-item" href="#">konfirmasi Akun</a>
+                            <router-link to="/konfirmasi" v-show="isAdmin()==1 || isAdmin()==2">
+                                <a class="dropdown-item" href="#">Konfirmasi Akun</a>
+                            </router-link>
+                            <router-link to="/daftarUser" v-show="isAdmin()==2">
+                                <a class="dropdown-item" href="#">Daftar User</a>
                             </router-link>
                         </div>
                     </li>
@@ -49,9 +56,6 @@
             }
         },
         methods: {
-            goToDashboard(){
-                this.$router.push('/dashboard')
-            },
             setAuthUser() {
                 axios('api/user', {headers: {Authorization: `Bearer ${this.$auth.getToken()}`}})
                     .then(e => {

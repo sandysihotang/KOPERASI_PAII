@@ -10,20 +10,19 @@
 
             <!-- Login Form -->
             <div class="mt-2">
-                <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
-                    Ada Kesalan Ulangi Sekali Lagi!
-                </b-alert>
-                <input v-model="form.name" type="text" class="fadeIn second"
-                       placeholder="Name">
-                <input v-model="form.email" type="email" class="fadeIn second"
-                       placeholder="Email">
-                <input v-model="form.password" type="password" id="password" class="fadeIn third"
-                       placeholder="Password">
-                <b-button variant="primary" v-show="!show" @click="register">Register</b-button>
-                <b-button v-show="show" variant="primary" disabled>
-                    <b-spinner small type="grow"></b-spinner>
-                    Loading...
-                </b-button>
+                <form @submit.prevent="register">
+                    <input v-model="form.name" type="text" class="fadeIn second"
+                           placeholder="Name">
+                    <input v-model="form.email" type="email" class="fadeIn second"
+                           placeholder="Email">
+                    <input v-model="form.password" type="password" id="password" class="fadeIn third"
+                           placeholder="Password">
+                    <b-button variant="primary" v-show="!show" type="submit">Register</b-button>
+                    <b-button v-show="show" variant="primary" disabled>
+                        <b-spinner small type="grow"></b-spinner>
+                        Loading...
+                    </b-button>
+                </form>
             </div>
             <div class="row mb-3">
                 <b-col>
@@ -45,13 +44,22 @@
                     password: null,
                     name: null
                 },
-                showDismissibleAlert: false,
                 show: false
             }
         },
         methods: {
             register: function () {
-                this.showDismissibleAlert = false
+                if (this.form.name == null || this.form.email == null || this.form.password == null) {
+                    this.$swal({
+                        position: 'center',
+                        type: 'error',
+                        width:300,
+                        title: 'Isi semua form',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return
+                }
                 this.show = true
                 axios.post('api/register', this.form)
                     .then(e => {
@@ -59,13 +67,24 @@
                         this.$swal({
                             position: 'center',
                             type: 'success',
-                            title: 'Silahkan tunggu Konfirmasi Administrator!',
+                            width:300,
+                            title: 'Anda Berhasil Mendaftar, Silahkan tunggu Konfirmasi Administrator!',
                             showConfirmButton: false,
                             timer: 1500
                         })
+                        this.form.name = null
+                        this.form.email = null
+                        this.form.password = null
                     })
                     .catch(e => {
-                        this.showDismissibleAlert = true
+                        this.$swal({
+                            position: 'center',
+                            type: 'error',
+                            width:300,
+                            title: 'Email Sudah Digunakan, Gunakan Email Lain',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         this.show = false
                     })
             }
